@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surpresa para o Léo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: linear-gradient(180deg, #7a1c1c 0%, #1a1a1a 40%, #121212 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* --- Music Player Section --- */
+        .player-section {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cover-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+
+        .track-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .track-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .track-artist {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #404040;
+            border-radius: 2px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 30%; /* Fake progress */
+            background: #fff;
+            border-radius: 2px;
+        }
+        
+        .progress-dot {
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .time-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #b3b3b3;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .btn-play {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-play svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            margin-left: 4px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+
+        /* --- Section: Sobre o Casal --- */
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 30px 20px 15px;
+        }
+
+        .couple-card {
+            background: #242424;
+            border-radius: 16px;
+            margin: 0 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .couple-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .couple-info {
+            padding: 20px;
+        }
+
+        .couple-names {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .couple-date {
+            font-size: 14px;
+            color: #b3b3b3;
+            margin-bottom: 20px;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .counter-box {
+            background: #333;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .counter-label {
+            font-size: 11px;
+            color: #b3b3b3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Section: Mensagem --- */
+        .message-card {
+            background: linear-gradient(135deg, #a41f35 0%, #611020 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 20px;
+            box-shadow: 0 4px 20px rgba(164, 31, 53, 0.3);
+            line-height: 1.6;
+        }
+
+        .message-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .message-card p {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #fcebeb;
+        }
+
+        /* --- Section: Galeria --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 0 20px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+        
+        .featured-img {
+            grid-column: 1 / -1;
+            aspect-ratio: auto;
+            max-height: 500px;
+        }
+
+        /* Hidden audio element */
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Título Atualizado -->
+        <div class="header">
+            Amo Você 🖤
+        </div>
+
+        <!-- Music Player Section -->
+        <div class="player-section">
+            <img src="1000407444.jpg" alt="Capa Música" class="cover-image" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=Foto+Capa'">
+            
+            <div class="track-info">
+                <div>
+                    <div class="track-title">Constellations (Piano Version)</div>
+                    <div class="track-artist">Jade LeMac</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+                <div class="progress-dot" id="dot"></div>
+            </div>
+            <div class="time-info">
+                <span id="current-time">0:00</span>
+                <span>3:48</span>
+            </div>
+
+            <div class="controls">
+                <button class="btn-icon">
+                    <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+                </button>
+                <button class="btn-play" onclick="togglePlay()">
+                    <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" style="display:none; margin:0;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <button class="btn-icon">
+                    <svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+                </button>
+            </div>
+            
+            <audio id="audio-player" src="musica.mp3"></audio>
+        </div>
+
+        <!-- Section: Sobre o Casal -->
+        <div class="section-title">Sobre o casal</div>
+        <div class="couple-card">
+            <img src="1000407454.jpg" alt="Casal" class="couple-image" onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Foto+Casal'">
+            <div class="couple-info">
+                <div class="couple-names">Heloisa e Leonardo</div>
+                <div class="couple-date">Juntos desde 12 de junho de 2025</div>
+                
+                <div class="counter-grid">
+                    <div class="counter-box">
+                        <div class="counter-number" id="anos">0</div>
+                        <div class="counter-label">Anos</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="meses">0</div>
+                        <div class="counter-label">Meses</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="dias">0</div>
+                        <div class="counter-label">Dias</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="horas">0</div>
+                        <div class="counter-label">Horas</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="minutos">0</div>
+                        <div class="counter-label">Minutos</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="segundos">0</div>
+                        <div class="counter-label">Segundos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Mensagem Atualizada -->
+        <div class="message-card">
+            <p>Léo,</p>
+            <p>Este não é bem o cenário que eu imaginava para o nosso Dia dos Namorados. Depois da nossa briga de ontem, as coisas ficaram muito pesadas, mas eu não podia deixar esse dia passar em branco sem te dizer o que realmente se passa aqui dentro.</p>
+            <p>Eu olho para nós hoje e lembro com tanta clareza do primeiro dia em que saímos. Lembro de como você cuidou de mim com tanto carinho. Sinto uma saudade imensa daquela época em que você me levava café na cama, daquela sensação segura e gostosa de saber que você fazia questão de me ter por perto. É esse Léo, o homem que me acolheu, que eu ainda procuro e que eu ainda quero na minha vida.</p>
+            <p>Ontem você me perguntou se eu nunca pensei em terminar. Você mesmo chegou à conclusão de que não dá para simplesmente jogar tudo para o alto porque "tem muita coisa envolvida". E tem mesmo. A nossa vida juntos, a nossa casa, o Joca... nós construímos um mundo inteiro que não se desfaz do dia para a noite.</p>
+            <p>Mas eu preciso que você entenda o tamanho da minha ferida agora. Descobrir aquilo no seu computador doeu de uma forma indescritível. Saber que, na sua tentativa de ver se o seu corpo ainda funcionava, você escolheu procurar o corpo de outra mulher... isso quebrou algo em mim. Eu juro que me esforço para entender o seu desespero e o seu lado da situação, mas a sua escolha de buscar essa resposta fora de nós foi devastadora.</p>
+            <p>O mais louco de tudo isso é que, mesmo no meio de toda essa mágoa e confusão, a verdade é que eu ainda quero você. Eu escolho você. Não quero desistir da gente, mas não podemos continuar no escuro. Quero saber se você também está disposto a enfrentar isso de frente para resgatarmos aquele cuidado e aquela conexão de quando tudo começou.</p>
+            <p>Porque a verdade, Léo, é que o meu amor por você não desapareceu no meio dessa tempestade. Eu amo você, muito. Amo a nossa história, os nossos momentos e o homem que você é. É justamente por esse amor tão grande e tão enraizado em mim que estou aqui, de peito aberto, pedindo para que a gente se olhe de verdade e escolha lutar pelo nosso relacionamento.</p>
+        </div>
+
+        <!-- Section: Galeria com as 13 Fotos -->
+        <div class="section-title">Nossos Momentos</div>
+        <div class="gallery-grid">
+            <img src="1000407452.jpg" alt="Momento 1" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+1'">
+            <img src="1000407451.jpg" alt="Momento 2" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+2'">
+            <img src="1000407450.jpg" alt="Momento 3" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+3'">
+            <img src="1000414494.jpg" alt="Momento 4" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+4'">
+            <img src="1000414491.jpg" alt="Momento 5" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+5'">
+            <img src="1000414499.jpg" alt="Momento 6" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+6'">
+            <img src="1000414498.jpg" alt="Momento 7" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+7'">
+            <img src="1000414497.jpg" alt="Momento 8" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+8'">
+            <img src="1000414496.jpg" alt="Momento 9" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+9'">
+            <img src="1000414495.jpg" alt="Momento 10" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+10'">
+            <img src="1000414493.jpg" alt="Momento 11" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+11'">
+            <img src="1000414492.jpg" alt="Momento 12" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/333/fff?text=Foto+12'">
+            
+            <!-- Última foto em destaque -->
+            <img src="1000414490.jpg" alt="Momento 13" class="gallery-img featured-img" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=Foto+13'">
+        </div>
+    </div>
+
+    <script>
+        // Lógica do Contador de Tempo
+        // Na programação JavaScript, os meses vão de 0 (Jan) a 11 (Dez). Junho = 5.
+        const dataInicio = new Date(2025, 5, 12); 
+
+        function atualizarContador() {
+            const agora = new Date();
+            let diferenca = Math.floor((agora - dataInicio) / 1000); 
+
+            if (diferenca < 0) diferenca = 0;
+
+            const segundos = diferenca % 60;
+            diferenca = Math.floor(diferenca / 60);
+            
+            const minutos = diferenca % 60;
+            diferenca = Math.floor(diferenca / 60);
+            
+            const horas = diferenca % 24;
+            diferenca = Math.floor(diferenca / 24);
+            
+            const diasTotais = diferenca;
+            
+            const anos = Math.floor(diasTotais / 365);
+            const diasRestantesAnos = diasTotais % 365;
+            const meses = Math.floor(diasRestantesAnos / 30);
+            const dias = diasRestantesAnos % 30;
+
+            document.getElementById('anos').innerText = anos;
+            document.getElementById('meses').innerText = meses;
+            document.getElementById('dias').innerText = dias;
+            document.getElementById('horas').innerText = horas;
+            document.getElementById('minutos').innerText = minutos;
+            document.getElementById('segundos').innerText = segundos;
+        }
+
+        setInterval(atualizarContador, 1000);
+        atualizarContador();
+
+        // Lógica Play/Pause
+        const audio = document.getElementById('audio-player');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        let isPlaying = false;
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            } else {
+                audio.play().catch(() => console.log('Áudio não carregado.'));
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Animação fake da barra
+        let fakeProgress = 0;
+        setInterval(() => {
+            if (isPlaying) {
+                fakeProgress += 0.5;
+                if (fakeProgress > 100) fakeProgress = 0;
+                document.getElementById('progress').style.width = fakeProgress + '%';
+                document.getElementById('dot').style.left = fakeProgress + '%';
+                
+                let totalSegundos = Math.floor((fakeProgress / 100) * 228);
+                let m = Math.floor(totalSegundos / 60);
+                let s = totalSegundos % 60;
+                document.getElementById('current-time').innerText = m + ':' + (s < 10 ? '0' : '') + s;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
